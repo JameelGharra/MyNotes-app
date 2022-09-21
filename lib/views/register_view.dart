@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+import '../firebase_options.dart';
+
+class RegisterView extends StatefulWidget {
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -50,25 +52,29 @@ class _LoginViewState extends State<LoginView> {
             final password = _password.text;
             try {
               final userCredential = await FirebaseAuth.instance
-                  .signInWithEmailAndPassword(email: email, password: password);
-
-              print(userCredential);
+                  .createUserWithEmailAndPassword(
+                      email: email, password: password);
             } on FirebaseAuthException catch (e) {
               switch (e.code) {
-                case 'user-not-found':
+                case 'weak-password':
                   {
-                    print('User not found.');
+                    print("Weak password.");
                     break;
                   }
-                case 'wrong-password':
+                case 'email-already-in-use':
                   {
-                    print("Wrong password.");
+                    print("The email is already in use!");
+                    break;
+                  }
+                case 'invalid-email':
+                  {
+                    print("Invalid email!");
                     break;
                   }
               }
             }
           },
-          child: const Text('Login'),
+          child: const Text('Register'),
         ),
       ],
     );
