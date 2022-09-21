@@ -1,29 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/views/login_view.dart';
+import '../firebase_options.dart';
 
-import 'firebase_options.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-    title: 'Notes App',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: const RegisterView(),
-  ));
-}
-
-class RegisterView extends StatefulWidget {
-  const RegisterView({Key? key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -44,7 +31,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Register')),
+        appBar: AppBar(title: const Text('Login')),
         body: FutureBuilder(
           future: Firebase.initializeApp(
             options: DefaultFirebaseOptions.currentPlatform,
@@ -74,29 +61,24 @@ class _RegisterViewState extends State<RegisterView> {
                         final password = _password.text;
                         try {
                           final userCredential = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
+                              .signInWithEmailAndPassword(
                                   email: email, password: password);
                         } on FirebaseAuthException catch (e) {
                           switch (e.code) {
-                            case 'weak-password':
+                            case 'user-not-found':
                               {
-                                print("Weak password.");
+                                print('User not found.');
                                 break;
                               }
-                            case 'email-already-in-use':
+                            case 'wrong-password':
                               {
-                                print("The email is already in use!");
-                                break;
-                              }
-                            case 'invalid-email':
-                              {
-                                print("Invalid email!");
+                                print("Wrong password.");
                                 break;
                               }
                           }
                         }
                       },
-                      child: const Text('Register'),
+                      child: const Text('Login'),
                     ),
                   ],
                 );
