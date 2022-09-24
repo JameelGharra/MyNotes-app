@@ -70,7 +70,15 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Inside your notes'), actions: [
-          PopupMenuButton(onSelected: (value) {
+          PopupMenuButton(onSelected: (value) async {
+            switch (value) {
+              case MenuAction.logout:
+                {
+                  final shouldLogout = await showLogOutDialog(context);
+                  devtools.log(shouldLogout.toString());
+                  break;
+                }
+            }
             devtools.log(value.toString());
           }, itemBuilder: (context) {
             return const [
@@ -92,11 +100,15 @@ Future<bool> showLogOutDialog(BuildContext context) {
           content: const Text('Are you sure you want to sign out?'),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
               child: const Text("Cancel"),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
               child: const Text("Log out"),
             )
           ],
