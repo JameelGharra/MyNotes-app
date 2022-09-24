@@ -62,14 +62,22 @@ class _LoginViewState extends State<LoginView> {
                     .pushNamedAndRemoveUntil(notesRoute, (route) => false);
               } on FirebaseAuthException catch (e) {
                 switch (e.code) {
+                  case 'invalid-email':
+                    {
+                      showErrorDialog(
+                          context, 'You have given an invalid email.');
+                      break;
+                    }
                   case 'user-not-found':
                     {
-                      devtools.log('User not found.');
+                      showErrorDialog(
+                          context, 'User not found in the database.');
                       break;
                     }
                   case 'wrong-password':
                     {
-                      devtools.log("Wrong password.");
+                      showErrorDialog(
+                          context, 'You provided a wrong password.');
                       break;
                     }
                 }
@@ -87,4 +95,23 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+}
+
+Future<void> showErrorDialog(BuildContext context, String text) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Logging error occured"),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      });
 }
