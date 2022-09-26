@@ -64,24 +64,33 @@ class _LoginViewState extends State<LoginView> {
                   case 'invalid-email':
                     {
                       await showErrorDialog(
-                          context, 'You have given an invalid email.');
+                        context,
+                        'You have given an invalid email.',
+                      );
                       break;
                     }
                   case 'user-not-found':
                     {
                       await showErrorDialog(
-                          context, 'User not found in the database.');
+                        context,
+                        'User not found in the database.',
+                      );
                       break;
                     }
                   case 'wrong-password':
                     {
                       await showErrorDialog(
-                          context, 'You provided a wrong password.');
+                        context,
+                        'You provided a wrong password.',
+                      );
                       break;
                     }
                   default:
                     {
-                      await showErrorDialog(context, 'Error -> ${e.code}');
+                      await showErrorDialog(
+                        context,
+                        'Error -> ${e.code}',
+                      );
                     }
                 }
               } catch (e) {
@@ -91,11 +100,12 @@ class _LoginViewState extends State<LoginView> {
             child: const Text('Login'),
           ),
           TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(registerRoute, (route) => false);
-              },
-              child: const Text("Not registered yet, register!"))
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+            },
+            child: const Text("Not registered yet, register!"),
+          )
         ],
       ),
     );
