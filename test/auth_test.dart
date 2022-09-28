@@ -43,12 +43,13 @@ void main() {
         );
         expect(badEmailUser,
             throwsA(const TypeMatcher<UserNotFoundAuthException>()));
+
         final badPasswordUser = provider.createUser(
           email: 'someone@ok.com',
           password: 'foobar',
         );
-        expect(
-            badPasswordUser, const TypeMatcher<WrongPasswordAuthException>());
+        expect(badPasswordUser,
+            throwsA(const TypeMatcher<WrongPasswordAuthException>()));
         final user = await provider.createUser(
           email: 'foo',
           password: 'bar',
@@ -59,8 +60,8 @@ void main() {
     );
     test(
       'Logged-in user should be able to get verified',
-      () {
-        provider.sendEmailVerification();
+      () async {
+        await provider.sendEmailVerification();
         final user = provider.currentUser;
         expect(user, isNotNull);
         expect(user!.isEmailVerified, true);
@@ -111,12 +112,13 @@ class MockAuthProvider implements AuthProvider {
   Future<AuthUser> logIn({
     required String email,
     required String password,
-  }) {
+  }) async {
     if (!isInitialized) throw NotInitializedException();
     if (email == 'foo@bar.com') throw UserNotFoundAuthException();
     if (password == 'foobar') throw WrongPasswordAuthException();
-    _user = const AuthUser(isEmailVerified: false);
-    return Future.value(_user);
+    const user = AuthUser(isEmailVerified: false);
+    _user = user;
+    return Future.value(user);
   }
 
   @override
