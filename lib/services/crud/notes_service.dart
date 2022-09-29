@@ -1,14 +1,84 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart'
-    show getApplicationDocumentsDirectory;
+    show getApplicationDocumentsDirectory, MissingPlatformDirectoryException;
 import 'package:path/path.dart' show join;
 
-const idColumn = "id";
-const emailColumn = "email";
-const userIDColumn = "user_id";
-const textColumn = "text";
-const syncedColumn = "is_synced_with_cloud";
+class DatabaseAlreadyOpenException implements Exception {}
+
+class UnableToGetDocumentsDirectory implements Exception {}
+
+class DatabaseIsNotOpen implements Exception {}
+
+class CouldNotDeleteUser implements Exception {}
+
+class UserAlreadyExistsException implements Exception {}
+
+class NotesService {
+  Database? _db;
+
+  Future<DatabaseUser> createUser({required String email}) async {
+    final db = _getDatabaseOrThrow();
+    final results = await db.query(
+      usersTable,
+      limit: 1,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isNotEmpty) throw UserAlreadyExistsException();
+    final userId = await db.insert(
+      usersTable,
+      {emailColumn: email.toLowerCase()},
+    );
+    return DatabaseUser(
+      id: userId,
+      email: email,
+    );
+  }
+
+  Future<void> deleteUser({required String email}) async {
+    final db = _getDatabaseOrThrow();
+    final deletedCount = await db.delete(
+      usersTable,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (deletedCount != 1) throw CouldNotDeleteUser();
+  }
+
+  Database _getDatabaseOrThrow() {
+    final db = _db;
+    if (db == null) {
+      throw DatabaseIsNotOpen();
+    } else {
+      return db;
+    }
+  }
+
+  Future<void> open() async {
+    if (_db != null) throw DatabaseAlreadyOpenException();
+    try {
+      final docsPath = await getApplicationDocumentsDirectory();
+      final dbPath = join(docsPath.path, dbName);
+      _db = await openDatabase(dbPath);
+
+      // creation of users and notes tables
+      await _db?.execute(createUsersTable);
+      await _db?.execute(createNotesTable);
+    } on MissingPlatformDirectoryException {
+      throw UnableToGetDocumentsDirectory();
+    }
+  }
+
+  Future<void> close() async {
+    if (_db == null) {
+      throw DatabaseIsNotOpen();
+    } else {
+      await _db?.close();
+      _db = null;
+    }
+  }
+}
 
 @immutable
 class DatabaseUser {
@@ -61,3 +131,27 @@ class DatabaseNote {
   @override
   int get hashCode => id.hashCode;
 }
+
+const idColumn = "id";
+const emailColumn = "email";
+const userIDColumn = "user_id";
+const textColumn = "text";
+const syncedColumn = "is_synced_with_cloud";
+
+const dbName = 'notesapp.db';
+const notesTable = 'notes';
+const usersTable = 'users';
+
+const createUsersTable = '''CREATE TABLE IF NOT EXISTS "users" (
+        "id"	INTEGER NOT NULL,
+        "email"	TEXT NOT NULL UNIQUE,
+        PRIMARY KEY("id" AUTOINCREMENT)
+      );''';
+const createNotesTable = '''CREATE TABLE IF NOT EXISTS "notes" (
+        "id"	INTEGER NOT NULL,
+        "user_id"	INTEGER NOT NULL,
+        "text"	TEXT,
+        "is_synced_with_cloud"	INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY("user_id") REFERENCES "users"("id"),
+        PRIMARY KEY("id" AUTOINCREMENT)
+      );''';
