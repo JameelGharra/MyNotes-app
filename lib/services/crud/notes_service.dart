@@ -45,7 +45,7 @@ class NotesService {
       throw CouldNotUpdateNote();
     }
     final updatedNote = await getNote(id: note.id);
-    _notes.removeWhere((element) => element.id == note.id);
+    _notes.removeWhere((element) => element.id == updatedNote.id);
     _notes.add(updatedNote);
     _notesStreamController.add(_notes);
     return updatedNote;
@@ -73,7 +73,7 @@ class NotesService {
       throw NoteCouldNotBeFound();
     } else {
       final note = DatabaseNote.fromRow(notes.first);
-      _notes.removeWhere((element) => note.id == id);
+      _notes.removeWhere((element) => element.id == id);
       _notes.add(note);
       _notesStreamController.add(_notes);
       return note;
@@ -202,8 +202,8 @@ class NotesService {
       _db = await openDatabase(dbPath);
 
       // creation of users and notes tables
-      await _db?.execute(createUsersTable);
-      await _db?.execute(createNotesTable);
+      await _db!.execute(createUsersTable);
+      await _db!.execute(createNotesTable);
 
       // caching all the notes stored in our local variable
       await _cacheNotes();
@@ -223,7 +223,7 @@ class NotesService {
     if (_db == null) {
       throw DatabaseIsNotOpen();
     } else {
-      await _db?.close();
+      await _db!.close();
       _db = null;
     }
   }
