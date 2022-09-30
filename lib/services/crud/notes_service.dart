@@ -44,7 +44,11 @@ class NotesService {
     if (countUpdated == 0) {
       throw CouldNotUpdateNote();
     }
-    return await getNote(id: note.id);
+    final updatedNote = await getNote(id: note.id);
+    _notes.removeWhere((element) => element.id == note.id);
+    _notes.add(updatedNote);
+    _notesStreamController.add(_notes);
+    return updatedNote;
   }
 
   Future<Iterable<DatabaseNote>> getAllNotes() async {

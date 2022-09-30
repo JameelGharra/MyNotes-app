@@ -88,8 +88,7 @@ class _NewNoteViewState extends State<NewNoteView> {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     decoration: const InputDecoration(
-                      hintText: 'Start typing your note.',
-                    ), // for expanding
+                        hintText: 'Start typing your note'), // for expanding
                   );
                 }
               default:
