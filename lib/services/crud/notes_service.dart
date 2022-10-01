@@ -40,6 +40,8 @@ class NotesService {
     final countUpdated = await db.update(
       notesTable,
       {textColumn: text, syncedColumn: false},
+      where: 'id = ?',
+      whereArgs: [note.id],
     );
     if (countUpdated == 0) {
       throw CouldNotUpdateNote();
