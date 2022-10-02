@@ -26,7 +26,7 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
     // creation of a note (taking into account hot-reload)
     if (_note == null) {
       final currentUser = AuthService.firebase().currentUser!;
-      final email = currentUser.email!;
+      final email = currentUser.email;
       final owner = await _notesService.getUser(email: email);
       _note = await _notesService.createNote(owner: owner);
     }
