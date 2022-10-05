@@ -19,8 +19,6 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
-  CloseDialog? _closeDialogHandle;
-
   @override
   void initState() {
     _email = TextEditingController();
@@ -39,16 +37,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
-        if (state is AuthStateLoggedOut) {
-          if (!state.isLoading && _closeDialogHandle != null) {
-            _closeDialogHandle!();
-            _closeDialogHandle = null;
-          } else if (state.isLoading && _closeDialogHandle == null) {
-            _closeDialogHandle = showLoadingDialog(
-              context: context,
-              text: 'Loading..',
-            );
-          }
+        if (state is AuthStateLoggedOut && state.exception != null) {
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(
               context,
