@@ -38,6 +38,17 @@ class AuthStateRegistering extends AuthState {
   }) : super(isLoading: isLoading);
 }
 
+class AuthStateForgotPassword extends AuthState {
+  final Exception? exception;
+  final bool haveSentEmail;
+
+  const AuthStateForgotPassword({
+    required this.exception,
+    required this.haveSentEmail,
+    required bool isLoading,
+  }) : super(isLoading: isLoading);
+}
+
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
 

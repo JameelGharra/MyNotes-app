@@ -33,7 +33,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             onPressed: () {
               context.read<AuthBloc>().add(const AuthEventLogOut());
             },
-            child: const Text("Go back to register"),
+            child: const Text("Go back to login"),
           )
         ],
       ),
