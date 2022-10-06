@@ -50,6 +50,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             children: [
               const Text(
                   'If you forgot your password, enter your email and we will send a password reset link'),
+              const SizedBox(
+                height: 25.0,
+              ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
@@ -57,6 +60,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 controller: _controller,
                 decoration:
                     const InputDecoration(hintText: 'Your email address'),
+              ),
+              const SizedBox(
+                height: 25.0,
               ),
               TextButton(
                 onPressed: () {
