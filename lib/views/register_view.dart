@@ -79,6 +79,9 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: const InputDecoration(hintText: 'Email'),
                 controller: _email,
               ),
+              const SizedBox(
+                height: 25.0,
+              ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 obscureText: true,

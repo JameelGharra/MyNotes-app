@@ -111,8 +111,11 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
                     controller: _textController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    cursorColor: Colors.red,
                     decoration: const InputDecoration(
-                        hintText: 'Start typing your note'), // for expanding
+                      hintText: 'Start typing your note',
+                      border: InputBorder.none,
+                    ),
                   );
                 }
               default:
