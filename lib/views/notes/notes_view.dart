@@ -5,6 +5,7 @@ import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
+import 'package:mynotes/views/notes/notes_sidebar/navigation_sidebar.dart';
 
 import '../../constants/routes.dart';
 import '../../enums/menu_action.dart';
@@ -31,8 +32,8 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: const Text("Inside your notes' inventory"), actions: [
+      drawer: const NavigationSideBar(),
+      appBar: AppBar(title: const Text("Notes Inventory"), actions: [
         IconButton(
           onPressed: () {
             Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
