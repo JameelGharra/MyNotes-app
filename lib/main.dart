@@ -8,8 +8,9 @@ import 'package:mynotes/services/auth/firebase_auth_provider.dart';
 import 'package:mynotes/utilities/loading/loading_screen.dart';
 import 'package:mynotes/views/forgot_password_view.dart';
 import 'package:mynotes/views/login_view.dart';
+import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
 import 'package:mynotes/views/notes/create_update_note_view.dart';
-import 'package:mynotes/views/notes/notes_view.dart';
+import 'package:mynotes/views/notes/notes_navigator.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 
@@ -21,8 +22,15 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.red,
     ),
-    home: BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(FirebaseAuthProvider()),
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(FirebaseAuthProvider()),
+        ),
+        BlocProvider<NavigationBloc>(
+          create: (context) => NavigationBloc(),
+        ),
+      ],
       child: const HomePage(),
     ),
     routes: {
@@ -50,7 +58,7 @@ class HomePage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          return const NotesView();
+          return const NotesNavigator();
         } else if (state is AuthStateNeedsVerification) {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {

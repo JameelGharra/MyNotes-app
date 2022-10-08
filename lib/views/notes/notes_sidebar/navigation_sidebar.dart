@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
 import 'package:mynotes/views/notes/notes_sidebar/sidebar_header.dart';
 import 'package:mynotes/views/notes/notes_sidebar/sidebar_menu_item.dart';
+
+import '../../../services/auth/bloc/auth_bloc.dart';
+import '../../../services/auth/bloc/auth_event.dart';
 
 class NavigationSideBar extends StatelessWidget {
   static const _menuPadding = EdgeInsets.symmetric(
@@ -12,45 +17,51 @@ class NavigationSideBar extends StatelessWidget {
     return Drawer(
       child: Material(
         color: const Color.fromARGB(255, 255, 0, 0),
-        child: ListView(padding: _menuPadding, children: const <Widget>[
-          SizedBox(
+        child: ListView(padding: _menuPadding, children: <Widget>[
+          const SizedBox(
             height: 40.0,
           ),
-          SideBarHeader(),
-          SizedBox(
+          const SideBarHeader(),
+          const SizedBox(
             height: 48.0,
           ),
-          SideBarMenuItem(
+          const SideBarMenuItem(
             text: 'Blocks',
             icon: Icons.block,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16.0,
           ),
-          SideBarMenuItem(
+          const SideBarMenuItem(
             text: 'Favourites',
             icon: Icons.favorite,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16.0,
           ),
-          SideBarMenuItem(
+          const SideBarMenuItem(
             text: 'Info',
             icon: Icons.info,
           ),
-          SizedBox(
+          const SizedBox(
             height: 48.0,
           ),
-          Divider(
+          const Divider(
             color: Colors.white70,
             thickness: 1.5,
           ),
-          SizedBox(
+          const SizedBox(
             height: 48.0,
           ),
           SideBarMenuItem(
             text: 'Log out',
             icon: Icons.logout,
+            onClicked: () async {
+              final shouldLogout = await showLogOutDialog(context);
+              if (shouldLogout) {
+                context.read<AuthBloc>().add(const AuthEventLogOut());
+              }
+            },
           ),
         ]),
       ),

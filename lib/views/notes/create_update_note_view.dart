@@ -3,8 +3,8 @@ import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/dialogs/cannot_share_empty_note_dialog.dart';
 //import 'package:mynotes/services/crud/notes_service.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
-import 'package:mynotes/services/cloud/cloud_note.dart';
-import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
+import 'package:mynotes/services/cloud/notes_service/cloud_note.dart';
+import 'package:mynotes/services/cloud/notes_service/firebase_cloud_storage.dart';
 import 'package:share_plus/share_plus.dart';
 // import 'package:mynotes/services/cloud/cloud_storage_exceptions.dart';
 
@@ -96,7 +96,7 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
                   Share.share(text);
                 }
               },
-              icon: const Icon(Icons.share),
+              icon: const Icon(Icons.ios_share),
             ),
           ],
         ),

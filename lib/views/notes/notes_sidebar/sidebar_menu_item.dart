@@ -31,7 +31,7 @@ class SideBarMenuItem extends StatelessWidget {
         _icon,
         color: _tileColor,
       ),
-      onTap: () {},
+      onTap: _onClicked,
     );
   }
 }
