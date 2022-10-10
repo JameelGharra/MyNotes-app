@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
 import 'package:mynotes/views/notes/bloc/navigation_event.dart';
 import 'package:mynotes/views/notes/bloc/navigation_state.dart';
@@ -10,15 +11,18 @@ class NotesNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<NavigationBloc>().add(const NavigationNoteViewEvent());
-    return BlocBuilder<NavigationBloc, NavigationState>(
-      builder: (context, state) {
-        if (state is NavigationStateNotesView) {
-          return const NotesView();
-        } else {
-          return const CircularProgressIndicator();
+    context.read<NavigationBloc>().add(const NavigationEventNoteView());
+    return BlocListener<NavigationBloc, NavigationState>(
+      listener: (context, state) {
+        if (state.stateRoute != null) {
+          Navigator.of(context).pop(); // drawer
+          Navigator.of(context).pushNamed(blockedUsersRoute).whenComplete(() =>
+              context
+                  .read<NavigationBloc>()
+                  .add(const NavigationEventNoteView()));
         }
       },
+      child: const NotesView(),
     );
   }
 }

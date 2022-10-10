@@ -6,6 +6,7 @@ import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
 import 'package:mynotes/services/auth/firebase_auth_provider.dart';
 import 'package:mynotes/utilities/loading/loading_screen.dart';
+import 'package:mynotes/views/blocked_users_view.dart';
 import 'package:mynotes/views/forgot_password_view.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
@@ -35,6 +36,7 @@ void main() {
     ),
     routes: {
       createOrUpdateNoteRoute: (context) => const CreateUpdateNewNote(),
+      blockedUsersRoute: (context) => const BlockedUsersView(),
     },
   ));
 }

@@ -4,8 +4,13 @@ import 'package:mynotes/views/notes/bloc/navigation_state.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc() : super(const NavigationStateUninitialized()) {
-    on<NavigationNoteViewEvent>(
+    on<NavigationEventNoteView>(
       (event, emit) => emit(const NavigationStateNotesView()),
+    );
+    on<NavigationEventBlockView>(
+      (event, emit) {
+        emit(const NavigationStateBlockView());
+      },
     );
   }
 }

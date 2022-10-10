@@ -5,6 +5,10 @@ abstract class NavigationEvent {
   const NavigationEvent();
 }
 
-class NavigationNoteViewEvent extends NavigationEvent {
-  const NavigationNoteViewEvent();
+class NavigationEventNoteView extends NavigationEvent {
+  const NavigationEventNoteView();
+}
+
+class NavigationEventBlockView extends NavigationEvent {
+  const NavigationEventBlockView();
 }

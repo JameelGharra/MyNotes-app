@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
+import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
+import 'package:mynotes/views/notes/bloc/navigation_event.dart';
 import 'package:mynotes/views/notes/notes_sidebar/sidebar_header.dart';
 import 'package:mynotes/views/notes/notes_sidebar/sidebar_menu_item.dart';
 
@@ -25,9 +27,14 @@ class NavigationSideBar extends StatelessWidget {
           const SizedBox(
             height: 48.0,
           ),
-          const SideBarMenuItem(
+          SideBarMenuItem(
             text: 'Blocks',
             icon: Icons.block,
+            onClicked: () {
+              context
+                  .read<NavigationBloc>()
+                  .add(const NavigationEventBlockView());
+            },
           ),
           const SizedBox(
             height: 16.0,
