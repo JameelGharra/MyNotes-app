@@ -10,12 +10,12 @@ class UserBlocks {
   static const String sharingBlockedUsersFieldName = 'blocked_user_ids';
   static final sharingDbInstance =
       FirebaseFirestore.instance.collection(sharingDbName);
-  static late final StreamController<List<String>> _blockedUsersStream;
+  late final StreamController<List<dynamic>> blockedUsersStream;
   static final UserBlocks _shared = UserBlocks._sharedInstance();
   UserBlocks._sharedInstance() {
-    _blockedUsersStream = StreamController<List<String>>.broadcast(
+    blockedUsersStream = StreamController<List<dynamic>>.broadcast(
       onListen: () {
-        _blockedUsersStream.sink.add(UserSharingData().blockedUsers);
+        blockedUsersStream.sink.add(UserSharingData().blockedUsers);
       },
     );
   }
@@ -31,9 +31,11 @@ class UserBlocks {
           .limit(1)
           .get()
           .then((value) => value.docs);
-      UserSharingData().blockedUsers = blockedUsersListQuery.first
-          .data()[sharingBlockedUsersFieldName] as List<String>;
-      _blockedUsersStream.add(UserSharingData().blockedUsers);
+      if (blockedUsersListQuery.isNotEmpty) {
+        UserSharingData().blockedUsers = blockedUsersListQuery.first
+            .data()[sharingBlockedUsersFieldName] as List<dynamic>;
+        blockedUsersStream.add(UserSharingData().blockedUsers);
+      }
     } catch (_) {
       throw CouldNotFetchBlockedUsers();
     }
@@ -43,7 +45,7 @@ class UserBlocks {
     try {
       await sharingDbInstance.doc(UserSharingData().documentId).update(
           {sharingBlockedUsersFieldName: UserSharingData().blockedUsers});
-      _blockedUsersStream.add(UserSharingData().blockedUsers);
+      blockedUsersStream.add(UserSharingData().blockedUsers);
     } catch (_) {
       throw CouldNotUpdateBlockListException();
     }
