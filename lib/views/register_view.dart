@@ -4,6 +4,8 @@ import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
+import 'package:mynotes/services/cloud/sharing_service/sharing_exceptions.dart';
+import 'package:mynotes/services/cloud/user_administration/users_administration_exceptions.dart';
 import 'package:mynotes/utilities/dialogs/error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
@@ -55,6 +57,16 @@ class _RegisterViewState extends State<RegisterView> {
             await showErrorDialog(
               context,
               'Register error.',
+            );
+          } else if (state.exception is CouldNotCreateUserException) {
+            await showErrorDialog(
+              context,
+              'Could not create the user in the administration database.',
+            );
+          } else if (state.exception is CouldNotCreateSharingForUserException) {
+            await showErrorDialog(
+              context,
+              'Could not create sharing storage for user while registering.',
             );
           }
         }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/cloud/sharing_service/user_blocks.dart';
+import 'package:mynotes/services/cloud/sharing_service/user_sharing_data.dart';
+import 'package:mynotes/services/cloud/user_administration/users_administration.dart';
 import 'package:mynotes/views/notes/blocked_users/blocked_users_list_view.dart';
 
 class BlockedUsersView extends StatefulWidget {
@@ -33,7 +35,18 @@ class _BlockedUsersViewState extends State<BlockedUsersView> {
             case ConnectionState.active:
               {
                 if (snapshot.hasData) {
-                  return const BlockedUsersListView();
+                  return FutureBuilder(
+                    future: UsersAdministration().mapUserIdsToEmails(
+                        userIdsList: UserSharingData().blockedUserIds),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.done:
+                          return const BlockedUsersListView();
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    },
+                  );
                 }
                 return const CircularProgressIndicator();
               }

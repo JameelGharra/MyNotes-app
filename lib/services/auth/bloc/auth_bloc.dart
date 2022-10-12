@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:mynotes/services/auth/auth_provider.dart';
+import 'package:mynotes/services/cloud/sharing_service/sharing_storage.dart';
+import 'package:mynotes/services/cloud/user_administration/users_administration.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -79,10 +81,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventRegister>(
       (event, emit) async {
         try {
-          await provider.createUser(
+          final createdUser = await provider.createUser(
             email: event.email,
             password: event.password,
           );
+          await UsersAdministration().createUser(
+            userId: createdUser.id,
+            email: createdUser.email,
+          );
+          await SharingStorage().createSharingForUser(userId: createdUser.id);
+          await provider.sendEmailVerification();
           emit(const AuthStateNeedsVerification(isLoading: false));
         } on Exception catch (e) {
           emit(AuthStateRegistering(

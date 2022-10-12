@@ -15,7 +15,7 @@ class UserBlocks {
   UserBlocks._sharedInstance() {
     blockedUsersStream = StreamController<List<dynamic>>.broadcast(
       onListen: () {
-        blockedUsersStream.sink.add(UserSharingData().blockedUsers);
+        blockedUsersStream.sink.add(UserSharingData().blockedUserIds);
       },
     );
   }
@@ -23,20 +23,14 @@ class UserBlocks {
 
   Future<void> cacheUserBlocks({required String userId}) async {
     try {
-      final blockedUsersListQuery = await sharingDbInstance
-          .where(
-            sharingUserIdFieldName,
-            isEqualTo: userId,
-          )
-          .limit(1)
-          .get()
-          .then((value) => value.docs);
-      if (blockedUsersListQuery.isNotEmpty) {
-        UserSharingData().blockedUsers = blockedUsersListQuery.first
-            .data()[sharingBlockedUsersFieldName] as List<dynamic>;
-        blockedUsersStream.add(UserSharingData().blockedUsers);
-      }
+      final readDocForUser =
+          await sharingDbInstance.doc(UserSharingData().documentId).get();
+      UserSharingData().blockedUserIds =
+          readDocForUser.data()![sharingBlockedUsersFieldName] as List<dynamic>;
+
+      blockedUsersStream.add(UserSharingData().blockedUserIds);
     } catch (_) {
+      print(_.toString());
       throw CouldNotFetchBlockedUsers();
     }
   }
@@ -44,16 +38,16 @@ class UserBlocks {
   Future<void> _updateBlockUserList() async {
     try {
       await sharingDbInstance.doc(UserSharingData().documentId).update(
-          {sharingBlockedUsersFieldName: UserSharingData().blockedUsers});
-      blockedUsersStream.add(UserSharingData().blockedUsers);
+          {sharingBlockedUsersFieldName: UserSharingData().blockedUserIds});
+      blockedUsersStream.add(UserSharingData().blockedUserIds);
     } catch (_) {
       throw CouldNotUpdateBlockListException();
     }
   }
 
-  Future<void> blockUser({required userIdToBlock}) async {
+  Future<void> blockUser({required String userIdToBlock}) async {
     try {
-      UserSharingData().blockedUsers.add(userIdToBlock);
+      UserSharingData().blockedUserIds.add(userIdToBlock);
       await _updateBlockUserList();
     } catch (_) {
       throw CouldNotUpdateBlockListException();
@@ -62,7 +56,7 @@ class UserBlocks {
 
   Future<void> unBlockUser({required String userBlockedId}) async {
     try {
-      UserSharingData().blockedUsers.remove(userBlockedId);
+      UserSharingData().blockedUserIds.remove(userBlockedId);
       await _updateBlockUserList();
     } catch (_) {
       throw CouldNotUnblockUserException();

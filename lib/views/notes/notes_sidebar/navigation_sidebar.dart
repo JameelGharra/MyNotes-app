@@ -27,6 +27,20 @@ class NavigationSideBar extends StatelessWidget {
           const SizedBox(
             height: 48.0,
           ),
+          const SideBarMenuItem(
+            text: 'Favourites',
+            icon: Icons.favorite,
+          ),
+          const SizedBox(
+            height: 16.0,
+          ),
+          const SideBarMenuItem(
+            text: 'Shared with me',
+            icon: Icons.people_rounded,
+          ),
+          const SizedBox(
+            height: 16.0,
+          ),
           SideBarMenuItem(
             text: 'Blocks',
             icon: Icons.block,
@@ -35,13 +49,6 @@ class NavigationSideBar extends StatelessWidget {
                   .read<NavigationBloc>()
                   .add(const NavigationEventBlockView());
             },
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          const SideBarMenuItem(
-            text: 'Favourites',
-            icon: Icons.favorite,
           ),
           const SizedBox(
             height: 16.0,

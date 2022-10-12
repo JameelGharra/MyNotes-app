@@ -7,11 +7,11 @@ class BlockedUsersListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: UserSharingData().blockedUsers.length,
+      itemCount: UserSharingData().blockedUserEmails.length,
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(
-            UserSharingData().blockedUsers[index],
+            UserSharingData().blockedUserEmails[index],
             maxLines: 1,
             softWrap: true,
             overflow: TextOverflow.ellipsis,

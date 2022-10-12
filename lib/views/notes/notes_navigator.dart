@@ -11,15 +11,14 @@ class NotesNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<NavigationBloc>().add(const NavigationEventNoteView());
+    context.read<NavigationBloc>().add(const NavigationEventInitialize());
     return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
         if (state.stateRoute != null) {
           Navigator.of(context).pop(); // drawer
-          Navigator.of(context).pushNamed(blockedUsersRoute).whenComplete(() =>
-              context
-                  .read<NavigationBloc>()
-                  .add(const NavigationEventNoteView()));
+          Navigator.of(context).pushNamed(blockedUsersRoute).whenComplete(() {
+            context.read<NavigationBloc>().add(const NavigationEventNoteView());
+          });
         }
       },
       child: const NotesView(),
