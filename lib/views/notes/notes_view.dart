@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/cloud/notes_service/cloud_note.dart';
-import 'package:mynotes/services/cloud/notes_service/firebase_cloud_storage.dart';
+import 'package:mynotes/services/cloud/notes_service/cloud_notes_storage.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
 import 'package:mynotes/views/notes/notes_sidebar/navigation_sidebar.dart';
@@ -20,12 +20,12 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-  late final FirebaseCloudStorage _notesService;
+  late final NotesStorage _notesService;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _notesService = FirebaseCloudStorage();
+    _notesService = NotesStorage();
     super.initState();
   }
 

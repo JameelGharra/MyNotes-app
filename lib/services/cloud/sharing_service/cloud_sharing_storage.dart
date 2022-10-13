@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mynotes/services/cloud/sharing_service/sharing_exceptions.dart';
-import 'package:mynotes/services/cloud/sharing_service/user_sharing_data.dart';
+import 'package:mynotes/services/cloud/user_administration/user_data.dart';
 
 class SharingStorage {
   static final SharingStorage _shared = SharingStorage._sharedInstance();
@@ -43,6 +43,6 @@ class SharingStorage {
           (value) => value.docs,
         );
     if (queryResult.isEmpty) throw CouldNotFindSharingForUserException();
-    UserSharingData().documentId = queryResult.first.id;
+    UserData().sharingDocumentId = queryResult.first.id;
   }
 }

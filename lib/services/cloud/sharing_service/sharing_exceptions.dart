@@ -13,3 +13,5 @@ class SharingForUserExistsException extends CloudSharingException {}
 class CouldNotCreateSharingForUserException extends CloudSharingException {}
 
 class CouldNotFindSharingForUserException extends CloudSharingException {}
+
+class CouldNotFetchSharedNotesException extends CloudSharingException {}

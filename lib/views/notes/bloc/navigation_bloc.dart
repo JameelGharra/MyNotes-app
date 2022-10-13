@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/services/cloud/sharing_service/sharing_storage.dart';
+import 'package:mynotes/services/cloud/sharing_service/cloud_sharing_storage.dart';
 import 'package:mynotes/services/cloud/sharing_service/user_blocks.dart';
 import 'package:mynotes/views/notes/bloc/navigation_event.dart';
 import 'package:mynotes/views/notes/bloc/navigation_state.dart';

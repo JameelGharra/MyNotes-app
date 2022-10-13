@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:mynotes/services/auth/auth_provider.dart';
-import 'package:mynotes/services/cloud/sharing_service/sharing_storage.dart';
+import 'package:mynotes/services/cloud/sharing_service/cloud_sharing_storage.dart';
+import 'package:mynotes/services/cloud/user_administration/user_data.dart';
 import 'package:mynotes/services/cloud/user_administration/users_administration.dart';
 
 import 'auth_event.dart';
@@ -46,6 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isLoading: false,
         ));
         if (user.isEmailVerified) {
+          UserData().userId = user.id;
+          UserData().userEmail = user.email;
           emit(AuthStateLoggedIn(
             user: user,
             isLoading: false,

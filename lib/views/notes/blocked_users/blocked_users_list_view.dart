@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mynotes/services/cloud/sharing_service/user_sharing_data.dart';
+import 'package:mynotes/services/cloud/user_administration/user_data.dart';
 
 class BlockedUsersListView extends StatelessWidget {
   const BlockedUsersListView({Key? key}) : super(key: key);
@@ -7,11 +7,11 @@ class BlockedUsersListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: UserSharingData().blockedUserEmails.length,
+      itemCount: UserData().blockedUserEmails.length,
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(
-            UserSharingData().blockedUserEmails[index],
+            UserData().blockedUserEmails[index],
             maxLines: 1,
             softWrap: true,
             overflow: TextOverflow.ellipsis,

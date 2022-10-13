@@ -4,7 +4,7 @@ import 'package:mynotes/utilities/dialogs/cannot_share_empty_note_dialog.dart';
 //import 'package:mynotes/services/crud/notes_service.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
 import 'package:mynotes/services/cloud/notes_service/cloud_note.dart';
-import 'package:mynotes/services/cloud/notes_service/firebase_cloud_storage.dart';
+import 'package:mynotes/services/cloud/notes_service/cloud_notes_storage.dart';
 import 'package:share_plus/share_plus.dart';
 // import 'package:mynotes/services/cloud/cloud_storage_exceptions.dart';
 
@@ -17,7 +17,7 @@ class CreateUpdateNewNote extends StatefulWidget {
 
 class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
   CloudNote? _note;
-  late final FirebaseCloudStorage _notesService;
+  late final NotesStorage _notesService;
   late final TextEditingController _textController;
 
   Future<CloudNote> createOrGetExistingNote(BuildContext context) async {
@@ -68,7 +68,7 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
 
   @override
   void initState() {
-    _notesService = FirebaseCloudStorage();
+    _notesService = NotesStorage();
     _textController = TextEditingController();
     super.initState();
   }

@@ -3,12 +3,11 @@ import 'package:mynotes/services/cloud/notes_service/cloud_note.dart';
 import 'package:mynotes/services/cloud/notes_service/cloud_storage_constants.dart';
 import 'package:mynotes/services/cloud/notes_service/cloud_storage_exceptions.dart';
 
-class FirebaseCloudStorage {
+class NotesStorage {
   final notes = FirebaseFirestore.instance.collection('notes');
-  static final FirebaseCloudStorage _shared =
-      FirebaseCloudStorage._sharedInstance();
-  FirebaseCloudStorage._sharedInstance();
-  factory FirebaseCloudStorage() => _shared;
+  static final NotesStorage _shared = NotesStorage._sharedInstance();
+  NotesStorage._sharedInstance();
+  factory NotesStorage() => _shared;
 
   Future<CloudNote> createNewNote({required String ownerUserId}) async {
     final document = await notes.add({
@@ -48,5 +47,10 @@ class FirebaseCloudStorage {
     } catch (_) {
       throw CouldNotDeleteNoteException();
     }
+  }
+
+  Future<CloudNote> getNoteFromId({required dynamic noteId}) async {
+    final noteDocSnapshot = await notes.doc(noteId).get();
+    return CloudNote.fromSnapShot(noteDocSnapshot);
   }
 }
