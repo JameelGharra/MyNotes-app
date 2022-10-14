@@ -47,12 +47,12 @@ class UsersAdministration {
     }
   }
 
-  Future<List<CloudNote>> mapNoteIdsToNotes(
-      {required List<dynamic> noteIds}) async {
-    List<CloudNote> notes = [];
+  Future<void> mapNoteIdsToNotes(
+      {required List<dynamic> noteIds,
+      required List<CloudNote> listToStoreNotes}) async {
+    listToStoreNotes.clear();
     for (final id in noteIds) {
-      notes.add(await NotesStorage().getNoteFromId(noteId: id));
+      listToStoreNotes.add(await NotesStorage().getNoteFromId(noteId: id));
     }
-    return notes;
   }
 }

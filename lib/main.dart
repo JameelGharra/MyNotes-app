@@ -12,6 +12,7 @@ import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
 import 'package:mynotes/views/notes/create_update_note_view.dart';
 import 'package:mynotes/views/notes/notes_navigator.dart';
+import 'package:mynotes/views/notes/shared_notes/shared_notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 
@@ -37,6 +38,7 @@ void main() {
     routes: {
       createOrUpdateNoteRoute: (context) => const CreateUpdateNewNote(),
       blockedUsersRoute: (context) => const BlockedUsersView(),
+      sharedNotesRoute: (context) => const SharedNotesView(),
     },
   ));
 }

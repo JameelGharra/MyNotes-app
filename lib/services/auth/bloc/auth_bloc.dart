@@ -42,13 +42,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: email,
           password: password,
         );
+        UserData().userId = user.id;
+        UserData().userEmail = user.email;
         emit(const AuthStateLoggedOut(
           exception: null,
           isLoading: false,
         ));
         if (user.isEmailVerified) {
-          UserData().userId = user.id;
-          UserData().userEmail = user.email;
           emit(AuthStateLoggedIn(
             user: user,
             isLoading: false,

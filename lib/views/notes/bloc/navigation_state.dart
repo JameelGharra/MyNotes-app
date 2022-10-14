@@ -18,3 +18,7 @@ class NavigationStateNotesView extends NavigationState {
 class NavigationStateBlockView extends NavigationState {
   const NavigationStateBlockView() : super(blockedUsersRoute);
 }
+
+class NavigationStateSharedView extends NavigationState {
+  const NavigationStateSharedView() : super(sharedNotesRoute);
+}

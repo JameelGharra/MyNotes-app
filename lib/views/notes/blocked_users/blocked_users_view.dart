@@ -24,7 +24,7 @@ class _BlockedUsersViewState extends State<BlockedUsersView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Blocked users',
+          'Blocked Users',
         ),
       ),
       body: StreamBuilder(

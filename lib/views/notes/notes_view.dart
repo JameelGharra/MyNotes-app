@@ -22,6 +22,7 @@ class NotesView extends StatefulWidget {
 class _NotesViewState extends State<NotesView> {
   late final NotesStorage _notesService;
   String get userId => AuthService.firebase().currentUser!.id;
+  String get userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
@@ -32,7 +33,10 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationSideBar(),
+      drawer: NavigationSideBar(
+        userId: userId,
+        email: userEmail,
+      ),
       appBar: AppBar(
           title: const Text(
             "Notes Inventory",

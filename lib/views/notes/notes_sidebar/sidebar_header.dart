@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/services/cloud/user_administration/user_data.dart';
 
 class SideBarHeader extends StatelessWidget {
-  const SideBarHeader({Key? key}) : super(key: key);
+  final String _userEmail;
+  const SideBarHeader({Key? key, required String email})
+      : _userEmail = email,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class SideBarHeader extends StatelessWidget {
         Icons.account_circle,
         color: Colors.white,
       ),
-      title: Text(UserData().userEmail!,
+      title: Text(_userEmail,
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

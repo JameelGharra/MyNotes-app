@@ -10,10 +10,18 @@ import '../../../services/auth/bloc/auth_bloc.dart';
 import '../../../services/auth/bloc/auth_event.dart';
 
 class NavigationSideBar extends StatelessWidget {
+  final String _userId;
+  final String _userEmail;
   static const _menuPadding = EdgeInsets.symmetric(
     horizontal: 10.0,
   );
-  const NavigationSideBar({Key? key}) : super(key: key);
+  const NavigationSideBar({
+    Key? key,
+    required String userId,
+    required String email,
+  })  : _userId = userId,
+        _userEmail = email,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,7 +31,7 @@ class NavigationSideBar extends StatelessWidget {
           const SizedBox(
             height: 40.0,
           ),
-          const SideBarHeader(),
+          SideBarHeader(email: _userEmail),
           const SizedBox(
             height: 48.0,
           ),
@@ -34,9 +42,14 @@ class NavigationSideBar extends StatelessWidget {
           const SizedBox(
             height: 16.0,
           ),
-          const SideBarMenuItem(
+          SideBarMenuItem(
             text: 'Shared with me',
             icon: Icons.people_rounded,
+            onClicked: () {
+              context
+                  .read<NavigationBloc>()
+                  .add(NavigationEventSharedView(userId: _userId));
+            },
           ),
           const SizedBox(
             height: 16.0,

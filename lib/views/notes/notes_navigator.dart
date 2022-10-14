@@ -16,7 +16,7 @@ class NotesNavigator extends StatelessWidget {
       listener: (context, state) {
         if (state.stateRoute != null) {
           Navigator.of(context).pop(); // drawer
-          Navigator.of(context).pushNamed(blockedUsersRoute).whenComplete(() {
+          Navigator.of(context).pushNamed(state.stateRoute!).whenComplete(() {
             context.read<NavigationBloc>().add(const NavigationEventNoteView());
           });
         }

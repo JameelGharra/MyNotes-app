@@ -16,3 +16,8 @@ class NavigationEventNoteView extends NavigationEvent {
 class NavigationEventBlockView extends NavigationEvent {
   const NavigationEventBlockView();
 }
+
+class NavigationEventSharedView extends NavigationEvent {
+  final String userId;
+  const NavigationEventSharedView({required this.userId});
+}
