@@ -10,23 +10,29 @@ class NotesStorage {
   factory NotesStorage() => _shared;
 
   Future<CloudNote> createNewNote({required String ownerUserId}) async {
+    DateTime currentUtcTime = DateTime.now().toUtc();
     final document = await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
+      timeFieldName: Timestamp.fromDate(currentUtcTime),
+      isFavouredFieldName: false,
     });
     final fetchedNote = await document.get();
     return CloudNote(
       documentId: fetchedNote.id,
       ownerUserId: ownerUserId,
       text: '',
+      timeUtc: currentUtcTime,
+      isFavoured: false,
     );
   }
 
-  Stream<Iterable<CloudNote>> allNotes({required String ownerUserId}) {
+  Stream<List<CloudNote>> allNotes({required String ownerUserId}) {
     final allNotes = notes
         .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
         .snapshots()
-        .map((event) => event.docs.map((doc) => CloudNote.fromSnapShot(doc)));
+        .map((event) =>
+            event.docs.map((doc) => CloudNote.fromSnapShot(doc)).toList());
     return allNotes;
   }
 
@@ -35,7 +41,21 @@ class NotesStorage {
     required String text,
   }) async {
     try {
-      await notes.doc(documentId).update({textFieldName: text});
+      await notes.doc(documentId).update({
+        textFieldName: text,
+        timeFieldName: Timestamp.fromDate(DateTime.now()),
+      });
+    } catch (_) {
+      throw CouldNotUpdateNoteException();
+    }
+  }
+
+  Future<void> switchFavoured({required CloudNote note}) async {
+    try {
+      await notes
+          .doc(note.documentId)
+          .update({isFavouredFieldName: !note.isFavoured});
+      note.isFavoured = !note.isFavoured;
     } catch (_) {
       throw CouldNotUpdateNoteException();
     }

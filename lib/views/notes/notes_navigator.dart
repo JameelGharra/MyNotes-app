@@ -4,7 +4,7 @@ import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/views/notes/bloc/navigation_bloc.dart';
 import 'package:mynotes/views/notes/bloc/navigation_event.dart';
 import 'package:mynotes/views/notes/bloc/navigation_state.dart';
-import 'package:mynotes/views/notes/notes_view.dart';
+import 'package:mynotes/views/notes/user_notes/notes_view.dart';
 
 class NotesNavigator extends StatelessWidget {
   const NotesNavigator({super.key});

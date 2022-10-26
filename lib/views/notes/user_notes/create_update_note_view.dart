@@ -76,7 +76,6 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
   @override
   void dispose() {
     _deleteNoteIfTextIsEmpty();
-    _saveNoteIfTextNotEmpty();
     _textController.dispose();
     super.dispose();
   }
@@ -85,7 +84,7 @@ class _CreateUpdateNewNoteState extends State<CreateUpdateNewNote> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('New note'),
+          title: const Text('New Note'),
           actions: [
             IconButton(
               onPressed: () async {
