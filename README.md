@@ -1,16 +1,6 @@
-# mynotes
+# Note-Up
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+A multi-platform app mainly for iOS, Android & web, developed with Dart using Flutter framework and 
+Firebase as the backend: provides the user a noting service with the ability to share notes between the app 
+users with ease, simultaneous sync between user’s devices, categorizing notes, blocking a specific user 
+from sharing notes with you, along with other more features.
